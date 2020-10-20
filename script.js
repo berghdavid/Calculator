@@ -14,8 +14,8 @@ function divide (a, b) {
     return a / b;
 }
 
-function operate (operator, a, b) {
-    operator(a, b);
+function operate (text) {
+    // Determine what operation to perform on the numbers in the string.
 }
 
 function initButtons () {
@@ -32,42 +32,31 @@ function initButtons () {
     }
     createCalcButton("*", "operator-button");
     createCalcButton("Clear", "clear-button");
-    createCalcButton("0", "nr-button");
+    createCalcButton(0, "nr-button");
     createCalcButton("Enter", "equals-button");
     createCalcButton("/", "operator-button");
 }
-/* 
-function createCalcButton(text, additionalClass) {
-    var div = document.createElement('button');
-    div.classList.add("calc-button", additionalClass);
-    div.type = "submit";
-    div.textContent = text;
-    document.getElementById("button-container").appendChild(div);
-}*/
 
 function createCalcButton(text) {
     var div = document.createElement('button');
     div.classList.add("calc-button");
     div.type = "submit";
     div.textContent = text;
+
+    var label = document.getElementById("calc-label");
     if(text == "Clear") {
         div.addEventListener("click", function() {
-            document.getElementById("calc-label").innerHTML = "";
+            label.innerHTML = "";
         });
     }
     else if(text == "Equals") {
         div.addEventListener("click", function() {
-            // Calculate stuff
+            operate(label.innerHTML);
         });
     }
-    else if([1,2,3,4,5,6,7,8,9].includes(text)) {
+    else if([0,1,2,3,4,5,6,7,8,9,"+","-","*","/"].includes(text)) {
         div.addEventListener("click", function() {
-            document.getElementById("calc-label").innerHTML += text;
-        });
-    }
-    else if(["+","-","*","/"].includes(text)) {
-        div.addEventListener("click", function() {
-            // Perform operator stuff, send which operator to "operate" and let it decide
+            label.innerHTML += text;
         });
     }
     document.getElementById("button-container").appendChild(div);
