@@ -1,74 +1,80 @@
-const labelField = document.getElementById("calc-label");
+const inputField = document.getElementById("input-label");
+const outputField = document.getElementById("output-label");
+
+// Fix input/output fields......
+
 const digits = [0,1,2,3,4,5,6,7,8,9];
 const operators = ['+', '-', '*', '/'];
 
 function add (a, b) {
-    return a + b;
+    return parseInt(a) + parseInt(b);
 }
 
 function subtract (a, b) {
-    return a - b;
+    return parseInt(a) - parseInt(b);
 }
 
 function multiply (a, b) {
-    return a * b;
+    return parseInt(a) * parseInt(b);
 }
 
 function divide (a, b) {
-    return a / b;
+    return parseInt(a) / parseInt(b);
 }
 
 function operate (text) {
     var replaced = text;
+    var error = false;
+
     for (operator in operators){
-        replaced = replaced.replace(operators[operator], ',' + operators[operator] + ',');
+        replaced = replaced.replaceAll(operators[operator], ',' + operators[operator] + ',');
     }
-    var arr = replaced.split(",");
-    
+    replaced = replaced.split(",");
 
-    for (element in arr) {  // Performs the operations on the array of number and operations
-
-        if (operators.includes(arr[element])){
-            if (arr[+element - 1] == undefined) {
-                labelField.innerHTML = "ERROR: Missing first number";
+    // Legitability check
+    for (element in replaced) {
+        if(operators.includes(replaced[element])) {
+            if (replaced[+element - 1] == "") {
+                inputField.innerHTML = "ERROR: Missing first number";
+                error = true;
             }
-            else if (arr[+element + 1] == undefined) {
-                labelField.innerHTML = "ERROR: Missing last number";
+            else if (replaced[+element + 1] == "") {
+                inputField.innerHTML = "ERROR: Missing last number";
+                error = true;
             }
-            else if (!digits.includes(arr[+element - 1]) || !digits.includes(arr[+element + 1])){
-
-                // FIX!!!!!
-                //  https://mkyong.com/javascript/check-if-variable-is-a-number-in-javascript/
-                // digits does not include n>10. ex 27 
-
-
-                labelField.innerHTML = "ERROR: Missing number before/after operator";
-            }
-            else {
-                arr = applyOperators(arr, element);
+            else if (isNaN(replaced[+element - 1]) || isNaN(replaced[+element + 1])){
+                inputField.innerHTML = "ERROR: Missing number before/after operator";
+                error = true;
             }
         }
     }
-    labelField.innerHTML = arr[0];
+
+    // Perform operations
+    if(!error) {
+        while (replaced.length != 1) {
+            replaced = applyOperators(replaced, 1);
+        }
+        inputField.innerHTML = replaced[0];
+    }
 }
 
 function applyOperators(array, pos) {
     switch (array[pos]) {
         case "+":
-            array[pos] = add(array[pos-1], array[pos+1])
+            array[pos] = add(array[+pos - 1], array[+pos + 1])
             break;
         case "-":
-            array[pos] = subtract(array[pos-1], array[pos+1])
+            array[pos] = subtract(array[+pos - 1], array[+pos + 1])
             break;
         case "*":
-            array[pos] = multiply(array[pos-1], array[pos+1])
+            array[pos] = multiply(array[+pos - 1], array[+pos + 1])
             break;
         case "/":
-            array[pos] = divide(array[pos-1], array[pos+1])
+            array[pos] = divide(array[+pos - 1], array[+pos + 1])
             break;
     }
-    array.splice(pos-1,1);
     array.splice(pos+1,1);
+    array.splice(pos-1,1);
     return array;
 }
 
@@ -99,17 +105,17 @@ function createCalcButton(text) {
 
     if(text == "Clear") {
         div.addEventListener("click", function() {
-            labelField.innerHTML = "";
+            inputField.innerHTML = "";
         });
     }
     else if(text == "Equals") {
         div.addEventListener("click", function() {
-            operate(labelField.innerHTML);
+            operate(inputField.innerHTML);
         });
     }
     else if(digits.concat(operators).includes(text)) {
         div.addEventListener("click", function() {
-            labelField.innerHTML += text;
+            inputField.innerHTML += text;
         });
     }
     document.getElementById("button-container").appendChild(div);

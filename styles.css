@@ -12,25 +12,28 @@
 }
 
 #calculator-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: max-content;
-    height: fit-content;
-}
-
-#calc-label {
-    margin: auto;
-    display: block;
+    margin-top: var(--container-spacing-px);
+    margin-bottom: var(--container-spacing-px);
+    color: rgb(137, 201, 8);
     background-color: rgb(31, 56, 70);
-    text-align: left;
     line-height: 100px;
-    text-indent: 2%;
     width: 500px;
     height: 100px;
-    color: olivedrab;
     border: 1px solid #000000;
     border-radius: 1rem;
+
+}
+
+#input-label {
+    margin-left: var(--container-spacing-px);
+}
+
+#output-label {
+    margin-right: var(--container-spacing-px);
 }
 
 #button-container {
