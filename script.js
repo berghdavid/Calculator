@@ -15,6 +15,7 @@ const operators = ['+', '-', '*', '/'];
  * Button placement
  * Put the answer after the equals call in input and make 
  *  output show the old input instead, preferably above input
+ * Put labels explaining to use keyboard
  * Make it responsive.
  */
 

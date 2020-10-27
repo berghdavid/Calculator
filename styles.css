@@ -1,10 +1,18 @@
+/*@import url('https://fonts.googleapis.com/css2?family=B612:wght@400;700&display=swap');*/
+
 :root {
     --container-spacing-px: 20px;
     --color-calcText: rgb(137, 201, 8);
     --color-background: rgb(31, 56, 70);
-  }
+}
 
-  #calculator {
+html {
+    background: url("background.jpg");
+    /*background-color: gray;
+    background-size: cover;*/
+}
+
+#calculator {
     background-color: rgb(20, 20, 20);
     display: grid;
     width: 600px;
