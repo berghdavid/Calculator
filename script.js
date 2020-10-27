@@ -1,36 +1,45 @@
 const inputField = document.getElementById("input-label");
 const outputField = document.getElementById("output-label");
 const maxInputLength = 22;  // Determined by width of input/output boxes. Make responsive plz <3
+const digitContainer = document.getElementById("digit-container");
+const operatorContainer = document.getElementById("operator-container");
 
 const digits = [0,1,2,3,4,5,6,7,8,9];
 const operators = ['+', '-', '*', '/'];
 
+/**
+ * TODO:
+ * 
+ * Background
+ * Text font and color
+ * Button placement
+ * Put the answer after the equals call in input and make 
+ *  output show the old input instead, preferably above input
+ * Make it responsive.
+ */
+
+// Operator functions could be replaced
 function add (a, b) {
-    return parseInt(a) + parseInt(b);
+    return parseFloat(a) + parseFloat(b);
 }
 
 function subtract (a, b) {
-    return parseInt(a) - parseInt(b);
+    return parseFloat(a) - parseFloat(b);
 }
 
 function multiply (a, b) {
-    return parseInt(a) * parseInt(b);
+    return parseFloat(a) * parseFloat(b);
 }
 
 function divide (a, b) {
-    return parseInt(a) / parseInt(b);
+    return parseFloat(a) / parseFloat(b);
 }
 
 function operate () {
-    var replaced = inputField.innerHTML;
+    var replaced = separateByOperators(inputField.innerHTML);
     var error = false;
 
-    for (operator in operators){
-        replaced = replaced.replaceAll(operators[operator], ',' + operators[operator] + ',');
-    }
-    replaced = replaced.split(",");
-
-    // Legitability check
+    // Checks for errors in text input
     for (element in replaced) {
         if(operators.includes(replaced[element])) {
             if (replaced[+element - 1] == "") {
@@ -48,13 +57,28 @@ function operate () {
         }
     }
 
-    // Perform operations
+    // Performs operations if no error exists
     if(!error) {
         while (replaced.length != 1) {
             replaced = applyOperators(replaced, 1);
         }
         outputField.innerHTML = replaced[0];
     }
+}
+
+/** Used when looping through the numbers in inputField
+ * Separates text into an array of operators and digits
+ * which it returns.
+ * 
+ * @param {*String} text is the String to be converted.
+ */
+function separateByOperators () {
+    let string = inputField.innerHTML;
+    for (operator in operators){
+        string = string.replaceAll(operators[operator], ',' + operators[operator] + ',');
+    }
+    string = string.split(",");
+    return string;
 }
 
 function applyOperators(array, pos) {
@@ -79,130 +103,132 @@ function applyOperators(array, pos) {
 
 function initButtons () {
     for(i = 7; i < 10; i++){
-        createCalcButton(i, "nr-button");
+        createCalcButton(i, digitContainer);
     }
-    createCalcButton("+", "operator-button");
     for(i = 4; i < 7; i++){
-        createCalcButton(i, "nr-button");
+        createCalcButton(i, digitContainer);
     }
-    createCalcButton("-", "operator-button");
     for(i = 1; i < 4; i++){
-        createCalcButton(i, "nr-button");
+        createCalcButton(i, digitContainer);
     }
-    createCalcButton("*", "operator-button");
-    createCalcButton("Clear", "clear-button");
-    createCalcButton(0, "nr-button");
-    createCalcButton("Equals", "equals-button");
-    createCalcButton("/", "operator-button");
+    createCalcButton(".", digitContainer);
+    createCalcButton(0, digitContainer);
+    createCalcButton("=", digitContainer);
+
+    createCalcButton("↤", operatorContainer);
+    createCalcButton("+", operatorContainer);
+    createCalcButton("-", operatorContainer);
+    createCalcButton("*", operatorContainer);
+    createCalcButton("/", operatorContainer);
+    createCalcButton("Clear", operatorContainer);
 }
 
-function createCalcButton(text, className) {
+function createCalcButton(text, container) {
     var div = document.createElement('button');
     div.classList.add("calc-button");
-    div.classList.add(className);
     div.type = "submit";
     div.textContent = text;
 
-
-    if(text == "Clear") {
-        div.addEventListener("click", function() {
-            inputField.innerHTML = "";
-            outputField.innerHTML = "";
-        });
-    }
-    else if(text == "Equals") {
-        div.addEventListener("click", function() {
-            operate();
-        });
-    }
-    else if(digits.concat(operators).includes(text)) {
-        div.addEventListener("click", function() {
+    if(digits.concat(operators).concat(".").includes(text)) {   // Simply adds digits, operators and periods to the inputField
+        div.addEventListener("click", function(){
             inputEvent(text);
         });
     }
-    document.getElementById("button-container").appendChild(div);
+    else if(text == "↤") {
+        div.addEventListener("click", callBackspace);
+    }
+    else if(text == "Clear") {
+        div.addEventListener("click", callClear);
+    }
+    else if(text == "=") {
+        div.addEventListener("click", callEquals);
+    }
+
+    container.appendChild(div);
 }
 
+function callBackspace() {
+    currentText = inputField.innerHTML.slice(0, -1);
+    inputField.innerHTML = currentText;
+}
+
+function callClear() {
+    inputField.innerHTML = "";
+    outputField.innerHTML = "";
+}
+
+function callEquals() {
+    operate();
+}
 
 function inputEvent (symbol) {
     if(inputField.innerHTML.length < maxInputLength) {
-        inputField.innerHTML += symbol;
+        if(symbol != ".") {
+            inputField.innerHTML += symbol;
+        }
+        else {  // Checks if "." is possible to insert
+            var inputArray = separateByOperators(inputField.innerHTML);
+            var lastElement = inputArray[+inputArray.length - 1];
+            if(countOcurrences(lastElement, ".") < 1){
+                inputField.innerHTML += symbol;
+            }
+        }
     }
 }
 
-function pressKey(e) {      // Digit keycodes can be refactored a lot
+function countOcurrences(str, value) {
+    let count = 0;
+    for (i = 0;i < str.length; i++) {
+        if(str[i] == value) {
+            count++;
+        }
+    }
+    return count;
+}
 
-    console.log(e.keyCode);
-    switch (e.keyCode) {
+function keyPressed(e) {
+    let keyCode = e.keyCode;
+    
+    if (keyCode >= 48 && keyCode <= 57) {   // Works for digits only
+        inputEvent(+ keyCode - 48);
+    }
+    else if (keyCode >= 96 && keyCode <= 105) {
+        inputEvent(+ keyCode - 96);
+    }
+
+    switch (keyCode) {
+        case 171:
         case 107:
-            inputEvent(operator[0]);
+            inputEvent(operators[0]);
             break;
+        case 173:
         case 109:
-            inputEvent(operator[1]);
+            inputEvent(operators[1]);
             break;
         case 106:
-            inputEvent(operator[2]);
+            inputEvent(operators[2]);
             break;
         case 111:
-            inputEvent(operator[3]);
+            inputEvent(operators[3]);
             break;
         case 13:
-            operate();
+            callEquals();
             break;
+        case 108:
         case 190:
         case 110:
-            //pointEnter();
+        case 188:
+            inputEvent(".");
             break;
-        case 96:
-        case 48:
-            inputEvent(digits[0]);
-            break;
-        case 97:
-        case 49:
-            inputEvent(digits[1]);
-            break;
-        case 98:
-        case 50:
-            inputEvent(digits[2]);
-            break;
-        case 99:
-        case 51:
-            inputEvent(digits[3]);
-            break;
-        case 100:
-        case 52:
-            inputEvent(digits[4]);
-            break;
-        case 101:
-        case 53:
-            inputEvent(digits[5]);
-            break;
-        case 102:
-        case 54:
-            inputEvent(digits[6]);
-            break;
-        case 103:
-        case 55:
-            inputEvent(digits[7]);
-            break;
-        case 104:
-        case 56:
-            inputEvent(digits[8]);
-            break;
-        case 105:
-        case 57:
-            inputEvent(digits[9]);
-            break;
-        case 46:
-            //clearScreen();
+        case 67:
+            callClear();
             break;
         case 8:
-            //deleteNumber();
+        case 18:
+            callBackspace();
             break;
     }
 }
 
 initButtons();
 document.addEventListener('keydown', keyPressed);
-
-

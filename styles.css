@@ -1,5 +1,7 @@
 :root {
     --container-spacing-px: 20px;
+    --color-calcText: rgb(137, 201, 8);
+    --color-background: rgb(31, 56, 70);
   }
 
   #calculator {
@@ -18,14 +20,13 @@
     margin: auto;
     margin-top: var(--container-spacing-px);
     margin-bottom: var(--container-spacing-px);
-    color: rgb(137, 201, 8);
-    background-color: rgb(31, 56, 70);
+    color: var(--color-calcText);
+    background-color: var(--color-background);
     line-height: 100px;
     width: 500px;
     height: 100px;
     border: 1px solid #000000;
     border-radius: 1rem;
-
 }
 
 #input-label {
@@ -39,12 +40,23 @@
 #button-container {
     display: grid;
     margin: auto;
-    width: 560px;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 4fr 1fr;
+    width: 600px;
+}
+
+#digit-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    padding: var(--container-spacing-px);
+    justify-content: space-evenly;
     grid-column-gap: var(--container-spacing-px);
     grid-row-gap: var(--container-spacing-px);
+}
+
+#operator-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .calc-button {
