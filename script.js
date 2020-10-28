@@ -118,22 +118,32 @@ function initButtons () {
 
 function createCalcButton(text, container) {
     var div = document.createElement('button');
-    div.classList.add("calc-button");
+    
     div.type = "submit";
     div.textContent = text;
 
     if(digits.concat(operators).concat(".").includes(text)) {   // Simply adds digits, operators and periods to the inputField
+        if (operators.includes(text)) {
+            div.classList.add("calc-operator-button");
+        }
+        else {
+            div.classList.add("calc-button");
+        }
         div.addEventListener("click", function(){
             inputEvent(text);
         });
     }
+    
     else if(text == "↤") {
+        div.classList.add("calc-operator-button");
         div.addEventListener("click", callBackspace);
     }
     else if(text == "CE") {
+        div.classList.add("calc-operator-button");
         div.addEventListener("click", callCE);
     }
     else if(text == "=") {
+        div.classList.add("calc-button");
         div.addEventListener("click", callEquals);
     }
 

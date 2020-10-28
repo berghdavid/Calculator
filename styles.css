@@ -19,6 +19,7 @@
     --color-shadow: rgba(0, 0, 0, 0.425);
     
     --color-button: #F84AA7;
+    --color-operator-buttton: #f84a4a;
     --color-button-border: #ff3561dc;
 
     --color-button-hover: #3e8e41;
@@ -148,9 +149,24 @@ header {
     font-size: inherit;
 }
 
-.calc-button:hover {background-color: var(--color-button-hover)}
+.calc-operator-button {
+    margin: var(--button-spacing-px);
+    background-color: var(--color-operator-buttton);
+    color: var(--color-black);
+    text-align: center;
+    border: 2px solid var(--color-button-border);
+    border-radius: 0.2rem;
+    cursor: pointer;
+    box-shadow: 0 6px var(--color-button-shadow);
+    font-family: 'Ubuntu', sans-serif;
+    font-size: inherit;
+}
 
-.calc-button:active {
+.calc-button:hover, .calc-operator-button:hover{
+    background-color: var(--color-button-hover);
+}
+
+.calc-button:active, .calc-operator-button:active{
   background-color: var(--color-button-active);
   box-shadow: 0 3px var(--color-button-shadow);
   transform: translateY(3px);
