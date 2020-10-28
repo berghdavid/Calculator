@@ -23,7 +23,7 @@
 }
 
 html {
-    background: url("/Images/background.jpg");
+    background: url("../Calculator/Images/background.jpg");
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -159,4 +159,9 @@ header {
     margin: var(--display-text-margin);
     font-size: 20px;
     text-align: center;
+}
+
+.image-button {
+    width: 24px;
+    height: 24px;
 }

@@ -10,7 +10,6 @@ const operators = ['+', '-', '*', '/'];
 /**
  * TODO:
  * 
- * Put labels explaining how to use keyboard
  * Make it responsive.
  */
 
