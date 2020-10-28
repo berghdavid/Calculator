@@ -9,15 +9,23 @@
   </head>
 
   <body>
+    <header>Calculator</header>
     <div id="calculator">
       <div id="calculator-text">
-        <label id="input-label"></label>
-        <label id="output-label"></label>
+        <label class="explanatory-label display-label left-label">Input</label>
+        <label class="explanatory-label display-label right-label">Output</label>
+        <label id="input-label" class="display-label left-label"></label>
+        <label id="output-label" class="display-label right-label"></label>
       </div>
       <div id="button-container">
         <div id="digit-container"></div>
         <div id="operator-container"></div>
       </div>
+    </div>
+    <div id="explanatory-text-container">
+      <label id="label-keyboard">Supports keyboard buttons as well!</label>
+      <label id="label-button-c" class="label-button-explanations">Press .. to clear entries</label>
+      <label id="label-button-c" class="label-button-explanations">Press .. to get answer</label>
     </div>
   </body>
 </html>

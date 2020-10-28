@@ -1,70 +1,105 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,500;1,700&display=swap');
 
 :root {
     --button-spacing-px: 6px;
     --buttoncontainer-padding: 10px;
     --display-margin: 20px;
+    --display-text-margin: 10px;
 
     --color-background: #693668;
     
     --color-display: #F84AA7;
-    --color-calcText: #1b3a1b;
+    --color-black: rgb(0,0,0);
+    --color-shadow: rgba(0, 0, 0, 0.425);
     
     --color-button: #F84AA7;
-    --color-button-border: #FF3562;
+    --color-button-border: #ff3561dc;
 
     --color-button-hover: #3e8e41;
     --color-button-shadow: rgb(133, 87, 150);
-
     --color-button-active: #2d682f;
-    --color-button-shadow-active: rgb(95, 57, 97);
-    
-    --color-black: rgb(0,0,0);
+
+    --color-explanatory-label: #4793a7;
 }
 
 html {
     background: url("background.jpg");
     font-family: 'Ubuntu', sans-serif;
-    /*background-color: gray;
-    background-size: cover;*/
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    margin: var(--display-margin) auto var(--display-margin) auto;
+    padding: var(--display-text-margin);
+    color: var(--color-black);
+    background-color: var(--color-explanatory-label);
+    font-size: 40px;
+    border: 2px solid var(--color-button-border);
+    border-radius: 1rem;
+    box-shadow: 8px 8px 5px var(--color-shadow);
 }
 
 #calculator {
     background-color: var(--color-background);
     display: grid;
+    grid-template-rows: 1fr 3fr;
     width: 600px;
-    margin: auto;
+    height: 600px;
     border: 2px solid var(--color-button-border);
     border-radius: 1rem;
+    box-shadow: 8px 8px 5px var(--color-shadow);
 }
 
 #calculator-text {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
     justify-content: space-between;
     margin: var(--display-margin) auto var(--display-margin) auto;
-    color: var(--color-calcText);
+    color: var(--color-black);
     background-color: var(--color-display);
-    line-height: 100px;
-    width: 500px;
-    height: 100px;
+    width: 85%;
     border: 2px solid var(--color-button-border);
     border-radius: 1rem;
 }
 
-#input-label {
-    margin-left: var(--button-spacing-px);
+.display-label {
+    display: flex;
+    align-items: center;
+    font-size: 40px;
+    margin-left: var(--display-text-margin);
+    margin-right: var(--display-text-margin);
 }
 
-#output-label {
-    margin-right: var(--button-spacing-px);
+.explanatory-label {
+    font-size: 20px;
+}
+
+.left-label {
+    flex-direction: row;
+}
+
+.right-label {
+    flex-direction: row-reverse;
 }
 
 #button-container {
     display: grid;
     margin: auto;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 4fr 2fr;
     width: 600px;
+    height: 100%;
+    font-size: 30px;
 }
 
 #digit-container {
@@ -77,32 +112,51 @@ html {
 
 #operator-container {
     padding: var(--buttoncontainer-padding);
-    /*display: grid;
+    display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(3, 1fr);
-    */
-
-    display: flex;
-    flex-direction: column;
     justify-content: space-evenly;
 }
 
 .calc-button {
     margin: var(--button-spacing-px);
     background-color: var(--color-button);
-    color: var(--color-calcText);
+    color: var(--color-black);
     text-align: center;
     border: 2px solid var(--color-button-border);
     border-radius: 0.2rem;
     cursor: pointer;
     box-shadow: 0 6px var(--color-button-shadow);
     font-family: 'Ubuntu', sans-serif;
+    font-size: inherit;
 }
 
 .calc-button:hover {background-color: var(--color-button-hover)}
 
 .calc-button:active {
   background-color: var(--color-button-active);
-  box-shadow: 0 px var(--color-button-shadow);
+  box-shadow: 0 3px var(--color-button-shadow);
   transform: translateY(3px);
+}
+
+#explanatory-text-container {
+    display: flex;
+    flex-direction: column;
+    margin: var(--display-margin) auto var(--display-margin) auto;
+    color: var(--color-black);
+    background-color: var(--color-explanatory-label);
+    font-size: 24px;
+    border: 2px solid var(--color-button-border);
+    border-radius: 1rem;
+    box-shadow: 8px 8px 5px var(--color-shadow);
+}
+
+#label-keyboard {
+    margin: var(--display-text-margin);
+}
+
+.label-button-explanations {
+    margin: var(--display-text-margin);
+    font-size: 20px;
+    text-align: center;
 }

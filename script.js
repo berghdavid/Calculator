@@ -1,6 +1,6 @@
 const inputField = document.getElementById("input-label");
 const outputField = document.getElementById("output-label");
-const maxInputLength = 22;  // Determined by width of input/output boxes. Make responsive plz <3
+const maxInputLength = 10;  // Determined by width of input/output boxes. Make responsive plz <3
 const digitContainer = document.getElementById("digit-container");
 const operatorContainer = document.getElementById("operator-container");
 
@@ -10,13 +10,7 @@ const operators = ['+', '-', '*', '/'];
 /**
  * TODO:
  * 
- * Background and shadow calculator
- * Text font and color
- * Button placement - Maybe put operators in 2 columns
- * Put the answer after the equals call in input and make 
- *  output show the old input instead, preferably above input
- * Put labels explaining to use keyboard
- * Rename Clear to CE
+ * Put labels explaining how to use keyboard
  * Make it responsive.
  */
 
@@ -45,15 +39,15 @@ function operate () {
     for (element in replaced) {
         if(operators.includes(replaced[element])) {
             if (replaced[+element - 1] == "") {
-                outputField.innerHTML = "ERROR: Missing first number";
+                outputField.innerHTML = "ERROR";
                 error = true;
             }
             else if (replaced[+element + 1] == "") {
-                outputField.innerHTML = "ERROR: Missing last number";
+                outputField.innerHTML = "ERROR";
                 error = true;
             }
             else if (isNaN(replaced[+element - 1]) || isNaN(replaced[+element + 1])){
-                outputField.innerHTML = "ERROR: Missing number before/after operator";
+                outputField.innerHTML = "ERROR";
                 error = true;
             }
         }
@@ -118,11 +112,11 @@ function initButtons () {
     createCalcButton("=", digitContainer);
 
     createCalcButton("↤", operatorContainer);
+    createCalcButton("CE", operatorContainer);
     createCalcButton("+", operatorContainer);
-    createCalcButton("-", operatorContainer);
     createCalcButton("*", operatorContainer);
+    createCalcButton("-", operatorContainer);
     createCalcButton("/", operatorContainer);
-    createCalcButton("Clear", operatorContainer);
 }
 
 function createCalcButton(text, container) {
@@ -139,8 +133,8 @@ function createCalcButton(text, container) {
     else if(text == "↤") {
         div.addEventListener("click", callBackspace);
     }
-    else if(text == "Clear") {
-        div.addEventListener("click", callClear);
+    else if(text == "CE") {
+        div.addEventListener("click", callCE);
     }
     else if(text == "=") {
         div.addEventListener("click", callEquals);
@@ -154,7 +148,7 @@ function callBackspace() {
     inputField.innerHTML = currentText;
 }
 
-function callClear() {
+function callCE() {
     inputField.innerHTML = "";
     outputField.innerHTML = "";
 }
@@ -223,7 +217,7 @@ function keyPressed(e) {
             inputEvent(".");
             break;
         case 67:
-            callClear();
+            callCE();
             break;
         case 8:
         case 46:
