@@ -7,13 +7,6 @@ const operatorContainer = document.getElementById("operator-container");
 const digits = [0,1,2,3,4,5,6,7,8,9];
 const operators = ['+', '-', '*', '/'];
 
-/**
- * TODO:
- * 
- * Make it responsive.
- */
-
-// Operator functions could be replaced
 function add (a, b) {
     return parseFloat(a) + parseFloat(b);
 }
@@ -27,7 +20,12 @@ function multiply (a, b) {
 }
 
 function divide (a, b) {
-    return parseFloat(a) / parseFloat(b);
+    let unapproximated = (parseFloat(a) / parseFloat(b)).toString();
+    if (unapproximated.length > maxInputLength) {
+        let cutOffDecimals = + unapproximated.length - maxInputLength;
+        unapproximated = unapproximated.slice(0, - cutOffDecimals);
+    }
+    return parseFloat(unapproximated);
 }
 
 function operate () {
