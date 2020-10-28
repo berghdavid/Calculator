@@ -10,12 +10,13 @@ const operators = ['+', '-', '*', '/'];
 /**
  * TODO:
  * 
- * Background
+ * Background and shadow calculator
  * Text font and color
- * Button placement
+ * Button placement - Maybe put operators in 2 columns
  * Put the answer after the equals call in input and make 
  *  output show the old input instead, preferably above input
  * Put labels explaining to use keyboard
+ * Rename Clear to CE
  * Make it responsive.
  */
 
@@ -225,7 +226,7 @@ function keyPressed(e) {
             callClear();
             break;
         case 8:
-        case 18:
+        case 46:
             callBackspace();
             break;
     }
